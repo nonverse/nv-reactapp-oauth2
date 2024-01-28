@@ -1,0 +1,53 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Inter');
+
+// Variables
+@import 'variables';
+
+// Classnames
+@import 'classnames';
+
+// Index Config
+* {
+    font-family: $font-family-sans-serif;
+    margin: 0;
+    padding: 0;
+
+    font-size: 16px;
+    @media (max-width: 1920px) {
+        font-size: 12px;
+    }
+    @media (max-width: 1280px) {
+        font-size: 10px;
+    }
+    @media (max-width: 640px) {
+        font-size: 8px;
+    }
+
+    body {
+        .app {
+            background-color: var(--main);
+
+            height: 100vh;
+            width: 100vw;
+
+            #signature {
+                position: absolute;
+                bottom: 4vh;
+                margin-left: 4vh;
+                color: rgba(var(--font-color-rgb), .5);
+            }
+        }
+    }
+
+    .element-disabled {
+        opacity: .25;
+        pointer-events: none;
+    }
+}
+
+// Elements
+@import "elements/elements";
+
+// Components
+@import "components/components";

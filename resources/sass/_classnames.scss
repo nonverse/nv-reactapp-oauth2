@@ -1,0 +1,15 @@
+.default {
+  color: var(--font-color);
+}
+
+.splash {
+  color: $splash;
+}
+
+.default {
+    color: rgba(var(--font-color-rgb), .5);
+}
+
+.op-05 {
+    opacity: .5;
+}
