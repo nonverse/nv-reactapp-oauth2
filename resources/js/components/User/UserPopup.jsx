@@ -50,7 +50,7 @@ const UserPopup = ({setShow}) => {
                             {Object.keys(users).map((uuid) => {
                                 const user = users[uuid]
                                 return (
-                                    <User name={`${user.data.name_first} ${user.data.name_last}`} email={user.data.email} uuid={uuid} isCurrent={uuid === currentUser.uuid}/>
+                                    <User name={`${user.data.name_first} ${user.data.name_last}`} email={user.data.email} uuid={uuid} isCurrent={currentUser ? currentUser.uuid === uuid : false}/>
                                 )
                             })}
                             <InLineButton id="user-add" onClick={() => {
