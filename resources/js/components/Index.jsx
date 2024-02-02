@@ -42,16 +42,15 @@ function Index() {
                         const state = JSON.parse(query.get('state'))
                         dispatch(renderModal(state.modal.value))
                     }
-                    if (window.location.pathname !== '/verify') {
-                        window.history.replaceState(null, document.title, window.location.pathname)
-                    }
                     setInitialised(true)
                 }
             })
             .catch(e => {
                 switch (e.response.status) {
                     case 401:
-                        window.location = e.response.data.data.auth_url
+                        if (document.referrer === import.meta.env.VITE_AUTH_SERVER) {
+                            window.location = e.response.data.data.auth_url
+                        }
                         break
                     default:
                         break
