@@ -3,11 +3,17 @@ import {useEffect, useState} from "react";
 import {Provider, useDispatch, useSelector} from "react-redux";
 import {updateUser} from "../state/user";
 import store from "../state/store.js";
-import api from "@/scripts/api.js";
+import api from "../scripts/api.js";
 import axios from "axios";
-import {renderModal} from "@/state/app/modal.js";
-import cookies from "@/scripts/helpers/cookies.js";
-import {updateSettings} from "@/state/app/settings.js";
+import {renderModal} from "../state/app/modal.js";
+import cookies from "../scripts/helpers/cookies.js";
+import {updateSettings} from "../state/app/settings.js";
+import Logo from "../elements/Logo.jsx";
+import {BrowserRouter} from "react-router-dom";
+import UserIcon from "./User/UserIcon.jsx";
+import ModalPortal from "./ModalPortal.jsx";
+import Router from "./Router.jsx";
+import NotificationPortal from "./NotificationPortal.jsx";
 
 function Index() {
 
@@ -57,7 +63,17 @@ function Index() {
         <div
             className={`app ${(settings && settings.theme) ? settings.theme : `${settingsCookie ? JSON.parse(settingsCookie).theme : 'system'}`}`}
         >
-            
+            <Logo/>
+            <BrowserRouter>
+                <div className="container">
+                    <UserIcon/>
+                    <div className="content-wrapper">
+                        <ModalPortal/>
+                        <NotificationPortal/>
+                        <Router/>
+                    </div>
+                </div>
+            </BrowserRouter>
             <span id="signature">Micky & Rex Co<span className="splash">.</span></span>
         </div>
     );
