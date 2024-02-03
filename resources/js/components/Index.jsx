@@ -15,8 +15,17 @@ import Router from "./Router.jsx";
 import NotificationPortal from "./NotificationPortal.jsx";
 import UserPopup from "./User/UserPopup.jsx";
 import api from "../scripts/api.js";
+import Loader from "./Loader.jsx";
 
 function Index() {
+
+    /**
+     * Should the application be rendered if API initialisation fails?
+     * This should be set to false if the application relies on data from
+     * the API to be displayed unconditionally on load
+     * @type {boolean}
+     */
+    const renderWithoutApiSuccess = true
 
     /**
      * Status of the initial API call
@@ -108,13 +117,15 @@ function Index() {
                          * By default, the application will ignore authentication errors unless
                          * referred by the Nonverse authentication & authorization server, in which case
                          * the user will be redirected to the auth server to complete the authentication
-                         * and/or authorization process
+                         * and/or authorization process. Unless renderWithoutApiSuccess is false, in which
+                         * case the user will always be redirected to the auth server if there are
+                         * any authentication errors
                          */
-                        if (document.referrer === import.meta.env.VITE_AUTH_SERVER) {
-                            /**
-                             * Place the below line out of the if() statement if you wish for the
-                             * application to always redirect to auth server if a user is not found
-                             */
+                        if (renderWithoutApiSuccess) {
+                            if (document.referrer === import.meta.env.VITE_AUTH_SERVER) {
+                                window.location = e.response.data.data.auth_url
+                            }
+                        } else {
                             window.location = e.response.data.data.auth_url
                         }
                         break
@@ -128,37 +139,43 @@ function Index() {
         <div
             className={`app ${(settings && settings.theme) ? settings.theme : `${settingsCookie ? JSON.parse(settingsCookie).theme : 'system'}`}`}
         >
-            <Logo/>
-            <BrowserRouter>
-                <div className="container">
-                    {/*
-                    Comment out the below line if you do not wish for the user popup to be displayed
-                    when a user is logged on.
-                    It is expected that the popup is not removed if there is no clear indicator of the current
-                    user on the landing page of the application
-                    */}
-                    {user ? <UserPopup/> : ''}
+            {(apiStatus.success || renderWithoutApiSuccess) ?
+                <>
+                    <Logo/>
+                    <BrowserRouter>
+                        <div className="container">
+                            {/*
+                            Comment out the below line if you do not wish for the user popup to be displayed
+                            when a user is logged on.
+                            It is expected that the popup is not removed if there is no clear indicator of the current
+                            user on the landing page of the application
+                            */}
+                            {user ? <UserPopup/> : ''}
 
-                    {/*
-                    In the scenario that the user popup is removed, the below component should be
-                    replaced with <UserIconStatic/> to account for the animation delay(s)
-                    */}
-                    <UserIcon apiStatus={apiStatus}/>
+                            {/*
+                            In the scenario that the user popup is removed, the below component should be
+                            replaced with <UserIconStatic/> to account for the animation delay(s)
+                            */}
+                            <UserIcon apiStatus={apiStatus}/>
 
-                    {/*
-                    Only components that should be rendered application wide should be placed here
-                    All other components should be placed inside the router following proper
-                    routing structure
-                    */}
-                    <div className="content-wrapper">
-                        <ModalPortal/>
-                        <NotificationPortal/>
-                        <Router/>
-                    </div>
-                </div>
-            </BrowserRouter>
-            {/*This signature MUST be present on all production Nonverse applications*/}
-            <span id="signature">Micky & Rex Co<span className="splash">.</span></span>
+                            {/*
+                            Only components that should be rendered application wide should be placed here
+                            All other components should be placed inside the router following proper
+                            routing structure
+                            */}
+
+                            <div className="content-wrapper">
+                                <ModalPortal/>
+                                <NotificationPortal/>
+                                <Router/>
+                            </div>
+                        </div>
+                    </BrowserRouter>
+                    {/*This signature MUST be present on all production Nonverse applications*/}
+                    <span id="signature">Micky & Rex Co<span className="splash">.</span></span>
+                </>
+                : <Loader/>
+            }
         </div>
     );
 }
