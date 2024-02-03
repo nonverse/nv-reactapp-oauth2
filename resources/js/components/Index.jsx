@@ -18,7 +18,12 @@ import UserPopup from "./User/UserPopup.jsx";
 
 function Index() {
 
+    /**
+     * Not used by default.
+     * States whether the app is successfully logged into the API
+     */
     const [initialised, setInitialised] = useState(false)
+
     const dispatch = useDispatch()
     const query = new URLSearchParams(window.location.search)
     const settings = useSelector(state => state.application.settings.value)
