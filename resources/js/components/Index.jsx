@@ -29,28 +29,70 @@ function Index() {
         code: 0
     })
 
-    const dispatch = useDispatch()
+    /**
+     * Get query parameters from URL
+     * @type {URLSearchParams}
+     */
     const query = new URLSearchParams(window.location.search)
-    const settings = useSelector(state => state.application.settings.value)
-    const user = useSelector(state => state.user.value)
+
+    /**
+     * Get settings from cookie
+     * @type {string|string}
+     */
     const settingsCookie = cookies.get('settings')
 
+    /**
+     * Get settings from application state
+     * @type {string}
+     */
+    const settings = useSelector(state => state.application.settings.value)
+
+    /**
+     * Get user from application state
+     * @type {string}
+     */
+    const user = useSelector(state => state.user.value)
+
+    /**
+     * @type {DispatchType}
+     */
+    const dispatch = useDispatch()
+
     useEffect(() => {
+        /**
+         * Log the application into the Nonverse API
+         * The Nonverse authentication & authorization server will automatically
+         * log a user in upon application authorization
+         */
         api.initialise()
             .then(async response => {
                 setApiStatus({...apiStatus, called: true})
                 if (response.data.success) {
+                    /**
+                     * Get user settings
+                     */
                     await api.get('user/settings')
                         .then(response => {
                             dispatch(updateSettings(response.data.data))
                         })
+                    /**
+                     * Get user store (data)
+                     */
                     await api.get('user/store')
                         .then(response => {
                             dispatch(updateUser(response.data.data))
                         })
+                    /**
+                     * Check if authorization token is present in the url.
+                     * If so, pass it onto the backend for secure storage
+                     */
                     if (query.get('authorization_token')) {
                         await axios.post('/api/authorization-token', query)
                     }
+                    /**
+                     * Check for application state in the url.
+                     * If so, restore the application to the desired state
+                     */
                     if (query.get('state')) {
                         const state = JSON.parse(query.get('state'))
                         dispatch(renderModal(state.modal.value))
@@ -62,7 +104,17 @@ function Index() {
                 setApiStatus({...apiStatus, code: e.response.status})
                 switch (e.response.status) {
                     case 401:
+                        /**
+                         * By default, the application will ignore authentication errors unless
+                         * referred by the Nonverse authentication & authorization server, in which case
+                         * the user will be redirected to the auth server to complete the authentication
+                         * and/or authorization process
+                         */
                         if (document.referrer === import.meta.env.VITE_AUTH_SERVER) {
+                            /**
+                             * Place the below line out of the if() statement if you wish for the
+                             * application to always redirect to auth server if a user is not found
+                             */
                             window.location = e.response.data.data.auth_url
                         }
                         break
@@ -79,8 +131,19 @@ function Index() {
             <Logo/>
             <BrowserRouter>
                 <div className="container">
+                    {/*
+                    Comment out the below line if you do not wish for the user popup to be displayed
+                    when a user is logged on.
+                    It is expected that the popup is not removed if there is no clear indicator of the current
+                    user on the landing page of the application
+                    */}
                     {user ? <UserPopup/> : ''}
                     <UserIcon apiStatus={apiStatus}/>
+                    {/*
+                    Only components that should be rendered application wide should be placed here
+                    All other components should be placed inside the router following proper
+                    routing structure
+                    */}
                     <div className="content-wrapper">
                         <ModalPortal/>
                         <NotificationPortal/>
@@ -88,6 +151,7 @@ function Index() {
                     </div>
                 </div>
             </BrowserRouter>
+            {/*This signature MUST be present on all production Nonverse applications*/}
             <span id="signature">Micky & Rex Co<span className="splash">.</span></span>
         </div>
     );
@@ -95,6 +159,9 @@ function Index() {
 
 export default Index;
 
+/**
+ * DO NOT EDIT
+ */
 if (document.getElementById('root')) {
     ReactDOM.render(
         <Provider store={store}>
