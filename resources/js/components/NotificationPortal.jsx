@@ -1,5 +1,6 @@
 import {useSelector} from "react-redux";
 import {AnimatePresence} from "framer-motion";
+import Notification from "./Notification.jsx";
 
 const NotificationPortal = () => {
 
@@ -11,10 +12,12 @@ const NotificationPortal = () => {
                 {notification ? (
                     <>
                         {notification.message ? (
-                            <>Notification component goes here</>
+                            <Notification>
+                                {notification.message}
+                            </Notification>
                         ) : ''}
                     </>
-                ): ''}
+                ) : ''}
             </AnimatePresence>
         </div>
     )
