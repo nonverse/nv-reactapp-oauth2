@@ -6,6 +6,7 @@ import {motion} from "framer-motion";
 import {useSelector} from "react-redux";
 import InLineButton from "@/elements/InLineButton.jsx";
 import helpers from "../../scripts/helpers/helpers.js";
+import api from "../../scripts/api.js";
 
 const UserSelector = ({setShow}) => {
 
@@ -43,20 +44,38 @@ const UserSelector = ({setShow}) => {
                 {loading ?
                     <Loader/> : (
                         <>
-                            <div id="user-selector-title">
-                                <h1>Users</h1>
-                                <h2>Select your account</h2>
-                            </div>
-                            {Object.keys(users).map((uuid) => {
-                                const user = users[uuid]
-                                return (
-                                    <User name={`${user.data.name_first} ${user.data.name_last}`} email={user.data.email} uuid={uuid} isCurrent={currentUser ? currentUser.uuid === uuid : false}/>
-                                )
-                            })}
-                            <InLineButton id="user-add" onClick={() => {
-                                window.location = `https://auth.nonverse.test?${helpers.getRedirectQuery('ignore_session')}`
-                            }}>Add user</InLineButton>
-                            <Logout setLoading={setLoading}/>
+                            {(users.length !== 0) ? (
+                                <>
+                                    <div id="user-selector-title">
+                                        <h1>Users</h1>
+                                        <h2>Select your account</h2>
+                                    </div>
+                                    {Object.keys(users).map((uuid) => {
+                                        const user = users[uuid]
+                                        return (
+                                            <User name={`${user.data.name_first} ${user.data.name_last}`}
+                                                  email={user.data.email} uuid={uuid}
+                                                  isCurrent={currentUser ? currentUser.uuid === uuid : false}/>
+                                        )
+                                    })}
+                                    <InLineButton id="user-add" onClick={() => {
+                                        window.location = `https://auth.nonverse.test?${helpers.getRedirectQuery('ignore_session')}`
+                                    }}>Add user</InLineButton>
+                                    <Logout setLoading={setLoading}/>
+                                </>
+                            ) :
+                                <div id="no-users">
+                                    <div id="no-user-icon">
+                                        <h1>?</h1>
+                                    </div>
+                                    <h1>No users found in session</h1>
+                                    <h2>Please login to continue</h2>
+                                    <InLineButton id="no-user-login-btn" onClick={() => {
+                                        window.location = `https://auth.nonverse.test/login?${helpers.getRedirectQuery()}`
+                                    }
+                                    }>Login</InLineButton>
+                                </div>
+                            }
                         </>
                     )}
             </div>

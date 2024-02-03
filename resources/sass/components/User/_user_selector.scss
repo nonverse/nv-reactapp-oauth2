@@ -19,8 +19,7 @@
         margin-top: 4vh;
         padding: 1.5rem;
         border-radius: 25px;
-        display: flex;
-        flex-direction: column;
+        display: grid;
 
         .loader-wrapper {
             span {
@@ -79,6 +78,44 @@
                 float: left;
                 margin-top: .5rem;
             }
+        }
+    }
+
+    #no-users {
+        align-self: center;
+        justify-self: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        #no-user-icon {
+            height: 75px;
+            aspect-ratio: 1/1;
+            border-radius: 50%;
+            background-color: $splash;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+
+            h1 {
+                color: var(--main);
+                font-size: 2rem;
+            }
+        }
+
+        h1 {
+            color: var(--font-color);
+        }
+
+        h2 {
+            color: rgba(var(--font-color-rgb), .5);
+            margin-top: .5rem;
+        }
+
+        #no-user-login-btn {
+            margin-top: 2rem;
         }
     }
 }
