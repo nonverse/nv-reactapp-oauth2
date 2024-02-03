@@ -138,7 +138,13 @@ function Index() {
                     user on the landing page of the application
                     */}
                     {user ? <UserPopup/> : ''}
+
+                    {/*
+                    In the scenario that the user popup is removed, the below component should be
+                    replaced with <UserIconStatic/> to account for the animation delay(s)
+                    */}
                     <UserIcon apiStatus={apiStatus}/>
+
                     {/*
                     Only components that should be rendered application wide should be placed here
                     All other components should be placed inside the router following proper
