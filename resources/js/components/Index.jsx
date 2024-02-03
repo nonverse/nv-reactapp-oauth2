@@ -14,6 +14,7 @@ import UserIcon from "./User/UserIcon.jsx";
 import ModalPortal from "./ModalPortal.jsx";
 import Router from "./Router.jsx";
 import NotificationPortal from "./NotificationPortal.jsx";
+import UserPopup from "./User/UserPopup.jsx";
 
 function Index() {
 
@@ -21,6 +22,7 @@ function Index() {
     const dispatch = useDispatch()
     const query = new URLSearchParams(window.location.search)
     const settings = useSelector(state => state.application.settings.value)
+    const user = useSelector(state => state.user.value)
     const settingsCookie = cookies.get('settings')
 
     useEffect(() => {
@@ -65,6 +67,7 @@ function Index() {
             <Logo/>
             <BrowserRouter>
                 <div className="container">
+                    {user ? <UserPopup/> : ''}
                     <UserIcon/>
                     <div className="content-wrapper">
                         <ModalPortal/>
