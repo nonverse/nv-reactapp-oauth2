@@ -1,5 +1,5 @@
 import UserSvg from "../../../assets/User.jsx";
-import UserPopup from "@/components/User/UserPopup.jsx";
+import UserPopup from "@/components/User/UserSelector.jsx";
 import {useState} from "react";
 
 const UserIcon = () => {
