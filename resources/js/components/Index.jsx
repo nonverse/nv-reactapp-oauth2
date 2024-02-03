@@ -3,7 +3,6 @@ import {useEffect, useState} from "react";
 import {Provider, useDispatch, useSelector} from "react-redux";
 import {updateUser} from "../state/user";
 import store from "../state/store.js";
-import api from "../scripts/api.js";
 import axios from "axios";
 import {renderModal} from "../state/app/modal.js";
 import cookies from "../scripts/helpers/cookies.js";
@@ -15,14 +14,20 @@ import ModalPortal from "./ModalPortal.jsx";
 import Router from "./Router.jsx";
 import NotificationPortal from "./NotificationPortal.jsx";
 import UserPopup from "./User/UserPopup.jsx";
+import api from "../scripts/api.js";
 
 function Index() {
 
     /**
-     * Not used by default.
-     * States whether the app is successfully logged into the API
+     * Status of the initial API call
+     * This is used to render some components in order and provide
+     * a better user experience
      */
-    const [initialised, setInitialised] = useState(false)
+    const [apiStatus, setApiStatus] = useState({
+        called: false,
+        success: false,
+        code: 0
+    })
 
     const dispatch = useDispatch()
     const query = new URLSearchParams(window.location.search)
@@ -33,6 +38,7 @@ function Index() {
     useEffect(() => {
         api.initialise()
             .then(async response => {
+                setApiStatus({...apiStatus, called: true})
                 if (response.data.success) {
                     await api.get('user/settings')
                         .then(response => {
@@ -49,10 +55,11 @@ function Index() {
                         const state = JSON.parse(query.get('state'))
                         dispatch(renderModal(state.modal.value))
                     }
-                    setInitialised(true)
+                    setApiStatus({...apiStatus, success: true, code: response.status})
                 }
             })
             .catch(e => {
+                setApiStatus({...apiStatus, code: e.response.status})
                 switch (e.response.status) {
                     case 401:
                         if (document.referrer === import.meta.env.VITE_AUTH_SERVER) {
@@ -73,7 +80,7 @@ function Index() {
             <BrowserRouter>
                 <div className="container">
                     {user ? <UserPopup/> : ''}
-                    <UserIcon/>
+                    <UserIcon apiStatus={apiStatus}/>
                     <div className="content-wrapper">
                         <ModalPortal/>
                         <NotificationPortal/>
