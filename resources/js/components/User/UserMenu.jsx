@@ -7,8 +7,9 @@ import {useSelector} from "react-redux";
 import InLineButton from "@/elements/InLineButton.jsx";
 import helpers from "../../scripts/helpers/helpers.js";
 import api from "../../scripts/api.js";
+import ThisUser from "./ThisUser.jsx";
 
-const UserSelector = ({setShow}) => {
+const UserMenu = ({setShow}) => {
 
     const currentUser = useSelector(state => state.user.value)
     const [loading, setLoading] = useState(true)
@@ -46,6 +47,7 @@ const UserSelector = ({setShow}) => {
                         <>
                             {(users.length !== 0) ? (
                                 <>
+                                    <ThisUser/>
                                     <div id="user-selector-title">
                                         <h1>Users</h1>
                                         <h2>Select your account</h2>
@@ -83,4 +85,4 @@ const UserSelector = ({setShow}) => {
     )
 }
 
-export default UserSelector
+export default UserMenu
