@@ -2,6 +2,22 @@
   cursor: pointer;
 }
 
+.button-default {
+    background-color: $splash;
+    padding: .5rem 2rem;
+    color: var(--main);
+    border-radius: 8px;
+    -moz-box-shadow: 0 0 10px rgba(var(--font-color-rgb), .2);
+    -webkit-box-shadow: 0 0 10px rgba(var(--font-color-rgb), .2);
+    box-shadow: 0 0 10px rgba(var(--font-color-rgb), .2);
+    text-align: center;
+    transition: opacity .3s;
+
+    &:hover {
+        opacity: .8;
+    }
+}
+
 .inline-button {
   color: #6951FF;
   &:hover {
