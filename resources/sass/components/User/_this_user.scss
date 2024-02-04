@@ -1,0 +1,50 @@
+#this-user {
+    align-self: center;
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    #this-user-icon {
+        height: 75px;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        background-color: $splash;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+
+        h1 {
+            color: var(--main);
+            font-size: 1.75rem;
+            font-weight: lighter;
+        }
+    }
+
+    h1 {
+        font-weight: lighter;
+        color: var(--font-color);
+    }
+
+    #this-user-email {
+        color: rgba(var(--font-color-rgb), .5);
+    }
+
+    #this-user-actions {
+        margin-top: 1rem;
+        width: 100%;
+        .button-default {
+            padding: .5rem 4rem;
+            margin-bottom: .5rem;
+        }
+    }
+
+    #this-user-switch-btn {
+        background-color: var(--main);
+        color: $splash;
+        border: solid 2px $splash;
+    }
+}

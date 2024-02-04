@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
-import UserSelector from "./UserSelector.jsx";
+import UserMenu from "./UserMenu.jsx";
 import {motion} from "framer-motion";
 
 const UserIcon = ({apiStatus}) => {
@@ -29,7 +29,7 @@ const UserIcon = ({apiStatus}) => {
                         {user ? <h1>{user.name_first.charAt(0).toUpperCase()}</h1> : ''}
                     </div>
                 </motion.div>
-                {show ? <UserSelector setShow={setShow}/> : ''}
+                {show ? <UserMenu setShow={setShow}/> : ''}
             </> : <>
                 {showIcon ? <>
                     <motion.div
@@ -43,7 +43,7 @@ const UserIcon = ({apiStatus}) => {
                             {user ? <h1>{user.name_first.charAt(0).toUpperCase()}</h1> : ''}
                         </div>
                     </motion.div>
-                    {show ? <UserSelector setShow={setShow}/> : ''}
+                    {show ? <UserMenu setShow={setShow}/> : ''}
                 </> : <></>}
             </>
             }

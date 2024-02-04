@@ -8,12 +8,14 @@ import InLineButton from "@/elements/InLineButton.jsx";
 import helpers from "../../scripts/helpers/helpers.js";
 import api from "../../scripts/api.js";
 import ThisUser from "./ThisUser.jsx";
+import UserSelector from "./UserSelector.jsx";
 
 const UserMenu = ({setShow}) => {
 
-    const currentUser = useSelector(state => state.user.value)
     const [loading, setLoading] = useState(true)
+    const [showUsers, setShowUsers] = useState(false)
     const [users, setUsers] = useState({})
+    const user = useSelector(state => state.user.value)
 
     useEffect(() => {
         async function initialise() {
@@ -47,22 +49,8 @@ const UserMenu = ({setShow}) => {
                         <>
                             {(users.length !== 0) ? (
                                 <>
-                                    <ThisUser/>
-                                    <div id="user-selector-title">
-                                        <h1>Users</h1>
-                                        <h2>Select your account</h2>
-                                    </div>
-                                    {Object.keys(users).map((uuid) => {
-                                        const user = users[uuid]
-                                        return (
-                                            <User name={`${user.data.name_first} ${user.data.name_last}`}
-                                                  email={user.data.email} uuid={uuid}
-                                                  isCurrent={currentUser ? currentUser.uuid === uuid : false}/>
-                                        )
-                                    })}
-                                    <InLineButton id="user-add" onClick={() => {
-                                        window.location = `https://auth.nonverse.test?${helpers.getRedirectQuery('ignore_session')}`
-                                    }}>Add user</InLineButton>
+                                    {user ? <ThisUser setLoading={setLoading} showUsers={showUsers} setShowUsers={setShowUsers}/> : <UserSelector users={users} setLoading={setLoading}/>}
+                                    {showUsers ? <UserSelector users={users} setLoading={setLoading}/> : ''}
                                     <Logout setLoading={setLoading}/>
                                 </>
                             ) :
