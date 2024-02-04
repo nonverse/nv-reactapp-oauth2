@@ -41,7 +41,12 @@ const UserMenu = ({setShow}) => {
                     onClick={() => {
                         setShow(false)
                     }}>
-            <div id="user-selector" onClick={(e) => {
+            <motion.div
+                id="user-selector"
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: .25}}
+                onClick={(e) => {
                 e.stopPropagation()
             }}>
                 {loading ?
@@ -68,7 +73,7 @@ const UserMenu = ({setShow}) => {
                             }
                         </>
                     )}
-            </div>
+            </motion.div>
         </motion.div>
     )
 }
