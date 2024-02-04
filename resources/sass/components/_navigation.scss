@@ -1,0 +1,43 @@
+.navigation {
+    position: absolute;
+    width: 15%;
+    max-width: 400px;
+    height: 100%;
+    margin-left: 15vh;
+    justify-self: center;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 99;
+
+    .nav-link {
+        display: flex;
+        height: 3em;
+        //padding: 1rem 1rem 1rem 0;
+        margin: .25rem 0;
+        width: 70%;
+        text-decoration: none;
+        color: #333344;
+
+        span {
+            color: var(--font-color) !important;
+        }
+
+        .nav-link-active {
+            display: flex;
+            align-items: center;
+            font-size: 1.25rem;
+            width: 100%;
+            height: 100%;
+            color: rgba($splash, .4);
+            border-radius: 8px;
+        }
+    }
+
+    .active {
+        span {
+            color: var(--main) !important;
+        }
+    }
+}

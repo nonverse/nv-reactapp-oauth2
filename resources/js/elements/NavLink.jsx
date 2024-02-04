@@ -10,7 +10,7 @@ const NavLink = ({to, children}) => {
     const variants = {
         active: {
             backgroundColor: "#6951FF",
-            opacity: ".4",
+            opacity: "1",
             paddingLeft: "1.5rem",
             marginLeft: "2rem",
             color: "#ECF0F3",
