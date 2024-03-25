@@ -75,7 +75,7 @@ class AccessTokenService
          */
         $response = Http::post(env('VITE_AUTH_SERVER') . 'oauth/token', [
             'refresh_token' => $refreshToken->token,
-            'grant_type' => 'authorization_code',
+            'grant_type' => 'refresh_token',
             'client_id' => env('OAUTH_CLIENT_ID'),
             'client_secret' => env('OAUTH_CLIENT_SECRET'),
         ]);
