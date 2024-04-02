@@ -111,18 +111,18 @@ class AccessTokenService
          * Set access token and expiry in an encrypted session store
          */
         $request->session()->put('access_token', [
-            'token_value' => $response['access_token'],
-            'token_expiry' => CarbonImmutable::createFromTimestamp(time() + $response['expires_in'])
+            'token_value' => $response['data']['access_token'],
+            'token_expiry' => CarbonImmutable::createFromTimestamp(time() + $response['data']['expires_in'])
         ]);
 
         /**
          * If the auth server returned an refresh token (If this is the first time the application has
          * requested an access token), Store the refresh token in database
          */
-        if (array_key_exists('refresh_token', json_decode($response->body(), true))) {
+        if (array_key_exists('refresh_token', json_decode($response->body(), true)['data'])) {
             $this->refreshTokenRepository->create([
                 'user_id' => $user['sub'],
-                'token' => $response['refresh_token']
+                'token' => $response['data']['refresh_token']
             ]);
         }
     }
