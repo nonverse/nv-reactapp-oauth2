@@ -15,10 +15,9 @@ class api {
             target: 'api',
             url: url
         })
-            // TODO Fix error where the below code causes other catches to not work
-            // .catch(e => {
-            //     this.requestAuthorization(e)
-            // })
+            .catch(e => {
+                this.requestAuthorization(e)
+            })
     }
 
     async post(url, data, withToken) {
@@ -31,15 +30,16 @@ class api {
                 ...(withToken && {requires_authorization: true})
             }
         })
-            // TODO Fix error where the below code causes other catches to not work
-            // .catch(e => {
-            //     this.requestAuthorization(e)
-            // })
+            .catch(e => {
+                this.requestAuthorization(e)
+            })
     }
 
     requestAuthorization(e) {
         if (e.response.status === 401) {
             window.location = e.response.data.data.auth_url
+        } else {
+            throw e
         }
     }
 
